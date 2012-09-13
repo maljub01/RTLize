@@ -1,0 +1,65 @@
+= RTLize
+
+RTLize is a rails plugin that semi-automatically allows you to use the same stylesheet file(s) to produce both left-to-right and right-to-left layouts for your markup. It does this by intelligently switching all the left/right properties and values in the stylesheets you choose to RTLize.
+
+== Usage
+
+=== Basic usage
+
+RTLize registers a Sprocket's engine to preprocess the '.rtl' extension. This preprocessor expects CSS for input, and will output an RTLized version of the CSS it receives.
+
+For instance, if you want to serve an RTL version of your 'application.css.sass', you can make a symbolic link to it (or just a copy if you must) with the filename 'application-rtl.css.rtl.sass'. The '.rtl' extension is what triggers RTLize's preprocessor (the RTLizer) and must come right after the '.css' extension to work properly. As for the '-rtl' appended to the filename, this is just a convention I've adopted to differentiate RTLized CSS files from non-rtlized CSS files because otherwise they'll both have the same URI, which you definitely don't want. You can choose whichever naming convention you feel comfortable with.
+
+=== Manually overriding the CSS
+
+When writing your CSS, you will often encounter cases where you need to manually override the CSS for rtl, to change a background image for example. To do this, you can use the rtl class. The RTLizer wont transform any CSS rule that mentions the class 'rtl'. Notice that you'll need to manually add an 'rtl' class to your HTML tags that will use this (usually to the html or body tag).
+
+=== Preserving the layout for some sections of your markup
+
+You might also find that you need to perserve the layout on certain parts of your website. To do this, you'll need to tell the RTLizer about the CSS files/rules you don't want switched. You can do this using the no-rtl directive. The way this works is that whenever the RTLizer finds the following comment:
+  /*!= begin(no-rtl) */
+it wont transform all the CSS rules that follow until it reaches the comment:
+  /*!= end(no-rtl) */
+after which it will return to transforming the CSS rules it finds as normal.
+
+A few issues to keep in mind when using the no-rtl directive is that, depending on your CSS preprocessor if you use one, you might need to add an extra !. You should also avoid adding those comments except at the top-level of your nested declarations for them to work properly. For example, using SASS, the no-rtl directives look like this:
+
+  .top-level-class
+    .child-class-1
+      margin-left: 1px // This rule will be transformed to "margin-right: 1px"
+
+  /*!!= begin(no-rtl) */
+  .top-level-class
+    .child-class-2
+       float: left // This rule wont be transformed
+  /*!!= end(no-rtl) */
+
+  .another-top-level-class
+    span
+      padding-right: 5px // This rule will be transformed to "padding-left: 5px"
+
+
+== RTLize in the wild!
+
+Jawaker (an Arabic card game website) uses RTLize to automatically generate CSS files for the right-to-left (Arabic) layout of the website. You can get an idea of how RTLize works by comparing {the English interface}[http://www.jawaker.com/en] with {the Arabic one}[http://www.jawaker.com/ar]. Jawaker utilizes all the main features of RTLize: most the CSS is layout-switched automatically, with some manually-specified switching for images. Also, some parts (the game table, for example) has the same layout in both Arabic and English (to preserve playing order).
+
+== Testing
+
+Tests are hopefully coming soon, any help will be very appreciated though.
+
+== TODO
+
+* Add unit tests.
+* Add examples, including a sample application.
+* Use a proper CSS parser.
+* Improve coverage.
+* Improve behavior & documentation of the no-rtl directive.
+* Add helper methods in both Rails & JS that would take a string (or a hash) of CSS declarations and convert them to the equivalent RTLized version. This is in order to extend the RTLization support to inline styles as well as dynamic CSS changes.
+
+== Credits
+
+* This project was inspired by {Dustin Diaz's R2}[http://github.com/ded/R2]. The initial version was in fact not much more than a ruby port of R2.
+
+== License
+
+This project rocks and uses MIT-LICENSE.
