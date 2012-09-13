@@ -4,6 +4,14 @@ RTLize is a rails plugin that semi-automatically allows you to use the same styl
 
 == Usage
 
+=== Adding it to your application
+
+To add RTLize to your Rails application, all you need to do is add the following line to your Gemfile:
+
+  gem 'rtlize', :git => 'git://github.com/maljub01/RTLize.git'
+
+Then run `bundle install` and you'll be all set.
+
 === Basic usage
 
 RTLize registers a Sprocket's engine to preprocess the '.rtl' extension. This preprocessor expects CSS for input, and will output an RTLized version of the CSS it receives.
