@@ -72,14 +72,14 @@ module Rtlize
               # selector.gsub!(/\/\*!= end\(no-rtl\) \*\//, '')
             end
 
-            selector + '{' + self.transform_declarations(declarations) + '}'
+            selector + '{' + self.transform_declarations(declarations, no_invert) + '}'
           else
             rule
           end
         end
       end
 
-      def transform_declarations(declarations)
+      def transform_declarations(declarations, no_invert = false)
         declarations.split(/;(?!base64)/).map do |decl|
           m = decl.match(/([^:]+):(.+)$/)
 
