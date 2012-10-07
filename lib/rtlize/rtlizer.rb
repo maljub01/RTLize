@@ -14,6 +14,9 @@ module Rtlize
       'border-left-width'                  => 'border-right-width',
       'border-right-width'                 => 'border-left-width',
 
+      'border-left-style'                  => 'border-right-style',
+      'border-right-style'                 => 'border-left-style',
+
       'border-left-color'                  => 'border-right-color',
       'border-right-color'                 => 'border-left-color',
 
