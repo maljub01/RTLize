@@ -2,21 +2,21 @@ require 'test_helper'
 
 class RtlizerTest < ActiveSupport::TestCase
   def assert_declaration_transformation(from, to)
-    assert_equal(Rtlize::RTLizer.transform_declarations(from), to)
-    assert_equal(Rtlize::RTLizer.transform_declarations(to), from)
+    assert_equal(to, Rtlize::RTLizer.transform_declarations(from))
+    assert_equal(from, Rtlize::RTLizer.transform_declarations(to))
   end
 
   def assert_no_declaration_transformation(css)
-    assert_equal(Rtlize::RTLizer.transform_declarations(css), css)
+    assert_equal(css, Rtlize::RTLizer.transform_declarations(css))
   end
 
   def assert_transformation(from, to)
-    assert_equal(Rtlize::RTLizer.transform(from), to)
-    assert_equal(Rtlize::RTLizer.transform(to), from)
+    assert_equal(to, Rtlize::RTLizer.transform(from))
+    assert_equal(from, Rtlize::RTLizer.transform(to))
   end
 
   def assert_no_transformation(css)
-    assert_equal(Rtlize::RTLizer.transform(css), css)
+    assert_equal(css, Rtlize::RTLizer.transform(css))
   end
 
   test "Should transform the border properties properly" do
