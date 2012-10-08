@@ -51,13 +51,8 @@ A few issues to keep in mind when using the no-rtl directive is that, depending 
 
 Jawaker (an Arabic card game website) uses RTLize to automatically generate CSS files for the right-to-left (Arabic) layout of the website. You can get an idea of how RTLize works by comparing {the English interface}[http://www.jawaker.com/en] with {the Arabic one}[http://www.jawaker.com/ar]. Jawaker utilizes all the main features of RTLize: most the CSS is layout-switched automatically, with some manually-specified switching for images. Also, some parts (the game table, for example) has the same layout in both Arabic and English (to preserve playing order).
 
-== Testing
-
-Tests are hopefully coming soon, any help will be very appreciated though.
-
 == TODO
 
-* Add unit tests.
 * Add examples, including a sample application.
 * Use a proper CSS parser.
 * Improve coverage.
