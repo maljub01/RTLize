@@ -20,8 +20,6 @@ module Rtlize
       'border-left-color'                  => 'border-right-color',
       'border-right-color'                 => 'border-left-color',
 
-      'border-radius-bottomleft'           => 'border-radius-bottomright',
-      'border-radius-bottomright'          => 'border-radius-bottomleft',
       'border-bottom-right-radius'         => 'border-bottom-left-radius',
       'border-bottom-left-radius'          => 'border-bottom-right-radius',
       '-webkit-border-bottom-right-radius' => '-webkit-border-bottom-left-radius',
@@ -29,8 +27,6 @@ module Rtlize
       '-moz-border-radius-bottomright'     => '-moz-border-radius-bottomleft',
       '-moz-border-radius-bottomleft'      => '-moz-border-radius-bottomright',
 
-      'border-radius-topleft'              => 'border-radius-topright',
-      'border-radius-topright'             => 'border-radius-topleft',
       'border-top-right-radius'            => 'border-top-left-radius',
       'border-top-left-radius'             => 'border-top-right-radius',
       '-webkit-border-top-right-radius'    => '-webkit-border-top-left-radius',
