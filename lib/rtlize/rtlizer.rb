@@ -43,6 +43,9 @@ module Rtlize
     }
 
     @value_map = {
+      'border-color'          => :quad,
+      'border-style'          => :quad,
+      'border-width'          => :quad,
       'padding'               => :quad,
       'margin'                => :quad,
       'text-align'            => :rtltr,

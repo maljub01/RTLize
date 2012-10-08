@@ -25,6 +25,10 @@ class RtlizerTest < ActiveSupport::TestCase
     assert_declaration_transformation("border-left-color: red;",   "border-right-color: red;")
     assert_declaration_transformation("border-left-style: solid;", "border-right-style: solid;")
     assert_declaration_transformation("border-left-width: 1px;",   "border-right-width: 1px;")
+
+    assert_declaration_transformation("border-color: #000 #111 #222 #333;",        "border-color: #000 #333 #222 #111;")
+    assert_declaration_transformation("border-style: dotted solid double dashed;", "border-style: dotted dashed double solid;")
+    assert_declaration_transformation("border-width: 0px 1px 2px 3px;",            "border-width: 0px 3px 2px 1px;")
   end
 
   test "Should transform the clear/float properties" do
