@@ -40,7 +40,7 @@ class RtlizerTest < ActiveSupport::TestCase
     assert_declaration_transformation("direction: ltr;", "direction: rtl;")
   end
 
-  test "Should transform the left/right positioning properties" do
+  test "Should transform the left/right position properties" do
     assert_declaration_transformation("left: 1px;", "right: 1px;")
   end
 
