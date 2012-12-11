@@ -78,11 +78,12 @@ class RtlizerTest < ActiveSupport::TestCase
   end
 
   test "Should not transform CSS marked with no-rtl" do
-    assert_no_transformation(<<CSS)
-/*!= begin(no-rtl) */
-.klass { float: left; }
-/*!= end(no-rtl) */
-CSS
+    assert_no_transformation(<<-CSS)
+      /*!= begin(no-rtl) */
+
+      .klass { float: left; }
+
+      /*!= end(no-rtl) */
+    CSS
   end
 end
-
