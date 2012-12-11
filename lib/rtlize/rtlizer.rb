@@ -121,11 +121,17 @@ module Rtlize
       end
 
       def quad_radius(v)
-        # 1px 2px 3px 4px => 1px 2px 4px 3px
-        # since border-radius: top-left top-right bottom-right bottom-left
-        # will be border-radius: top-right top-left bottom-left bottom-right
+        # top-left, top-right, bottom-right, bottom-left
+        # when bottom-left is omitted, it takes the value of top-right
+        # when bottom-right is omitted, it takes the value of top-left
+        # when top-right is omitted, it takes the value of top-left
         m = v.split(/\s+/)
-        m.length == 4 ? [m[1], m[0], m[3], m[2]].join(' ') : v
+        case m.length
+        when 4 then [m[1], m[0], m[3], m[2]].join(' ')
+        when 3 then [m[1], m[0], m[1], m[2]].join(' ')
+        when 2 then [m[1], m[0]].join(' ')
+        else v
+        end
       end
 
       def box_shadow(v)
