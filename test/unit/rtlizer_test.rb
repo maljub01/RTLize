@@ -46,6 +46,15 @@ class RtlizerTest < ActiveSupport::TestCase
     end
   end
 
+  test "Should transform the box-shadow properties" do
+    ["box-shadow", "-moz-box-shadow", "-webkit-box-shadow"].each do |prop|
+      assert_declaration_transformation("#{prop}: #000 1px -2px, rgba(10, 20, 30) 4px 5px;", "#{prop}: #000 -1px -2px, rgba(10, 20, 30) -4px 5px;")
+      assert_declaration_transformation("#{prop}: inset -1px 2px 3px #FFFFFF, -4px 5px 6px black;", "#{prop}: inset 1px 2px 3px #FFFFFF, 4px 5px 6px black;")
+      assert_declaration_transformation("#{prop}: 1px 2px 3px rgba(20, 40, 60, 0.5) inset;", "#{prop}: -1px 2px 3px rgba(20, 40, 60, 0.5) inset;")
+      assert_declaration_transformation("#{prop}: -1px -2px 3px #000 inset;", "#{prop}: 1px -2px 3px #000 inset;")
+    end
+  end
+
   test "Should transform the clear/float properties" do
     assert_declaration_transformation("clear: left;", "clear: right;")
     assert_declaration_transformation("float: left;", "float: right;")

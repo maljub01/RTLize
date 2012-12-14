@@ -159,12 +159,12 @@ module Rtlize
 
       def box_shadow(v)
         found = false
-        v.gsub(/rgba\([^)]*\)|,|#\S*|[-0-9px]+/) do |m|
+        v.gsub(/rgba\([^)]*\)|,|#[0-9A-Fa-f]*|[-0-9px]+/) do |m|
           if m == ","
             # this property can take several comma-seperated values, we account for that, and transform each one correctly.
             found = false
             m
-          elsif m.match(/rgba\([^)]*\)|#\S*/) || found
+          elsif m.match(/rgba\([^)]*\)|#[0-9A-Fa-f]*/) || found
             m
           else
             found = true
