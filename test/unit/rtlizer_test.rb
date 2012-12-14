@@ -55,6 +55,12 @@ class RtlizerTest < ActiveSupport::TestCase
     assert_declaration_transformation("clip: rect(1px, 2px, 3px, 4px);", "clip: rect(1px, 4px, 3px, 2px);")
   end
 
+  test "Should transform the cursor property" do
+    assert_declaration_transformation("cursor: e-resize;",  "cursor: w-resize;")
+    assert_declaration_transformation("cursor: ne-resize;", "cursor: nw-resize;")
+    assert_declaration_transformation("cursor: se-resize;", "cursor: sw-resize;")
+  end
+
   test "Should transform the direction property" do
     assert_declaration_transformation("direction: ltr;", "direction: rtl;")
   end

@@ -45,6 +45,7 @@ module Rtlize
       'padding'               => :quad,
       'margin'                => :quad,
       'clip'                  => :rect,
+      'cursor'                => :cursor,
       'text-align'            => :rtltr,
       'float'                 => :rtltr,
       'clear'                 => :rtltr,
@@ -143,6 +144,16 @@ module Rtlize
         when 3 then [m[1], m[0], m[1], m[2]].join(' ')
         when 2 then [m[1], m[0]].join(' ')
         else v
+        end
+      end
+
+      def cursor(v)
+        if v.match(/^[ns]?e-resize$/)
+          v.gsub(/e-resize/, 'w-resize')
+        elsif v.match(/^[ns]?w-resize$/)
+          v.gsub(/w-resize/, 'e-resize')
+        else
+          v
         end
       end
 
