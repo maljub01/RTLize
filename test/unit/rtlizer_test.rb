@@ -92,6 +92,15 @@ class RtlizerTest < ActiveSupport::TestCase
     assert_declaration_transformation("text-align: left;", "text-align: right;")
   end
 
+  test "Should transform the text-shadow property" do
+    ["text-shadow", "-moz-text-shadow", "-webkit-text-shadow"].each do |prop|
+      assert_declaration_transformation("#{prop}: #000 1px -2px, rgba(10, 20, 30) 4px 5px;", "#{prop}: #000 -1px -2px, rgba(10, 20, 30) -4px 5px;")
+      assert_declaration_transformation("#{prop}: -1px 2px 3px #FFFFFF, -4px 5px 6px black;", "#{prop}: 1px 2px 3px #FFFFFF, 4px 5px 6px black;")
+      assert_declaration_transformation("#{prop}: 1px 2px 3px rgba(20, 40, 60, 0.5);", "#{prop}: -1px 2px 3px rgba(20, 40, 60, 0.5);")
+      assert_declaration_transformation("#{prop}: -1px -2px 3px #000;", "#{prop}: 1px -2px 3px #000;")
+    end
+  end
+
   test "Should not transform CSS rules whose selector includes .rtl" do
     assert_no_transformation(".klass span.rtl #id { float: left; }")
   end

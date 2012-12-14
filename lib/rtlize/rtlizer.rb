@@ -53,9 +53,12 @@ module Rtlize
       'border-radius'         => :quad_radius,
       '-webkit-border-radius' => :quad_radius,
       '-moz-border-radius'    => :quad_radius,
-      'box-shadow'            => :box_shadow,
-      '-webkit-box-shadow'    => :box_shadow,
-      '-moz-box-shadow'       => :box_shadow,
+      'box-shadow'            => :shadow,
+      '-webkit-box-shadow'    => :shadow,
+      '-moz-box-shadow'       => :shadow,
+      'text-shadow'           => :shadow,
+      '-webkit-text-shadow'   => :shadow,
+      '-moz-text-shadow'      => :shadow,
     }
 
     class << self
@@ -157,7 +160,7 @@ module Rtlize
         end
       end
 
-      def box_shadow(v)
+      def shadow(v)
         found = false
         v.gsub(/rgba\([^)]*\)|,|#[0-9A-Fa-f]*|[-0-9px]+/) do |m|
           if m == ","
