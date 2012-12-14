@@ -51,6 +51,10 @@ class RtlizerTest < ActiveSupport::TestCase
     assert_declaration_transformation("float: left;", "float: right;")
   end
 
+  test "Should transform the clip property" do
+    assert_declaration_transformation("clip: rect(1px, 2px, 3px, 4px);", "clip: rect(1px, 4px, 3px, 2px);")
+  end
+
   test "Should transform the direction property" do
     assert_declaration_transformation("direction: ltr;", "direction: rtl;")
   end

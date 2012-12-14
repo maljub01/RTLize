@@ -44,6 +44,7 @@ module Rtlize
       'border-width'          => :quad,
       'padding'               => :quad,
       'margin'                => :quad,
+      'clip'                  => :rect,
       'text-align'            => :rtltr,
       'float'                 => :rtltr,
       'clear'                 => :rtltr,
@@ -112,6 +113,17 @@ module Rtlize
 
       def direction(v)
         v == 'ltr' ? 'rtl' : v == 'rtl' ? 'ltr' : v
+      end
+
+      def rect(v)
+        if v.match(/rect\([^)]*\)/)
+          v.gsub(/\([^)]*\)/) do |m|
+            parts = m.gsub(/[()]/, '').split(',').map(&:strip)
+            "(#{parts[0]}, #{parts[3]}, #{parts[2]}, #{parts[1]})"
+          end
+        else
+          v
+        end
       end
 
       def quad(v)
