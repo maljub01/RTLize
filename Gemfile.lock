@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rtlize (0.1.0)
+    rtlize (0.2.0)
       rails (~> 3.2.8)
 
 GEM
