@@ -100,6 +100,14 @@ class RtlizerTest < ActiveSupport::TestCase
     assert_declaration_transformation("padding-left: 1px;", "padding-right: 1px;")
   end
 
+  test "Should transform the rotation property" do
+    assert_declaration_transformation("rotation: 0;", "rotation: 0;")
+    assert_declaration_transformation("rotation: 360deg;", "rotation: 0deg;")
+    assert_declaration_transformation("rotation: 270deg;", "rotation: 90deg;")
+    assert_declaration_transformation("rotation: 200.5deg;", "rotation: 159.5deg;")
+    assert_no_declaration_transformation("rotation: 180deg;")
+  end
+
   test "Should transform the text-align property" do
     assert_declaration_transformation("text-align: left;", "text-align: right;")
   end

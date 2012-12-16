@@ -59,6 +59,7 @@ module Rtlize
       'text-shadow'           => :shadow,
       '-webkit-text-shadow'   => :shadow,
       '-moz-text-shadow'      => :shadow,
+      'rotation'              => :deg,
     }
 
     class << self
@@ -177,6 +178,17 @@ module Rtlize
               m.chars.first == '-' ? m[1..-1] : '-' + m
             end
           end
+        end
+      end
+
+      def deg(v)
+        if v == '0'
+          v
+        else
+          old_angle = v.to_f
+          new_angle = 360 - old_angle
+          new_angle = new_angle.to_i if new_angle == new_angle.to_i # If it's an integer, write it without a decimal part.
+          v.gsub(/[0-9.]+/, new_angle.to_s)
         end
       end
     end
