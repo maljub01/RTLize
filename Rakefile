@@ -36,3 +36,19 @@ end
 
 
 task :default => :test
+
+desc "Build gem"
+task :build do
+  system "gem build rtlize.gemspec"
+  FileUtils.mkdir_p "pkg"
+  FileUtils.mv "rtlize-#{Rtlize::VERSION}.gem", "pkg"
+end
+
+task :tag do
+  system "git tag v#{Rtlize::VERSION}"
+  system "git push origin v#{Rtlize::VERSION}"
+end
+
+task :release => :build do
+  system "cd pkg && gem push bundler-#{Rtlize::VERSION}"
+end
