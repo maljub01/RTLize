@@ -162,7 +162,7 @@ module Rtlize
 
       def shadow(v)
         found = false
-        v.gsub(/rgba\([^)]*\)|,|#[0-9A-Fa-f]*|[-0-9px]+/) do |m|
+        v.gsub(/rgba\([^)]*\)|,|#[0-9A-Fa-f]*|[-0-9.px]+/) do |m|
           if m == ","
             # this property can take several comma-seperated values, we account for that, and transform each one correctly.
             found = false
@@ -171,7 +171,11 @@ module Rtlize
             m
           else
             found = true
-            m.to_i.zero? ? m : m.gsub(m.to_i.to_s, (-1 * m.to_i).to_s)
+            if m.to_f.zero?
+              m
+            else
+              m.chars.first == '-' ? m[1..-1] : '-' + m
+            end
           end
         end
       end

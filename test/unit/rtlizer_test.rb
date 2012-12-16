@@ -52,6 +52,18 @@ class RtlizerTest < ActiveSupport::TestCase
       assert_declaration_transformation("#{prop}: inset -1px 2px 3px #FFFFFF, -4px 5px 6px black;", "#{prop}: inset 1px 2px 3px #FFFFFF, 4px 5px 6px black;")
       assert_declaration_transformation("#{prop}: 1px 2px 3px rgba(20, 40, 60, 0.5) inset;", "#{prop}: -1px 2px 3px rgba(20, 40, 60, 0.5) inset;")
       assert_declaration_transformation("#{prop}: -1px -2px 3px #000 inset;", "#{prop}: 1px -2px 3px #000 inset;")
+
+      # Test when value is zero
+      assert_no_declaration_transformation("#{prop}: 0px 2px 3px red;")
+      assert_no_declaration_transformation("#{prop}: 0 2px 3px red;")
+      assert_no_declaration_transformation("#{prop}: -00 2px 3px red;")
+
+      # Test for different numeral values.
+      assert_declaration_transformation("#{prop}: 001px  2px 3px red;", "#{prop}: -001px  2px 3px red;")
+      assert_declaration_transformation("#{prop}: 1.5px  2px 3px red;", "#{prop}: -1.5px  2px 3px red;")
+      assert_declaration_transformation("#{prop}: 0.5px  2px 3px red;", "#{prop}: -0.5px  2px 3px red;")
+      assert_declaration_transformation("#{prop}: .5px   2px 3px red;", "#{prop}: -.5px   2px 3px red;")
+      assert_declaration_transformation("#{prop}: 5.55px 2px 3px red;", "#{prop}: -5.55px 2px 3px red;")
     end
   end
 
