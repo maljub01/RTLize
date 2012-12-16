@@ -49,6 +49,11 @@ task :tag do
   system "git push origin v#{Rtlize::VERSION}"
 end
 
+task :delete_tag do
+  system "git tag -d v#{Rtlize::VERSION}"
+  system "git push origin :refs/tags/v#{Rtlize::VERSION}"
+end
+
 task :release => :build do
   system "cd pkg && gem push rtlize-#{Rtlize::VERSION}"
 end
