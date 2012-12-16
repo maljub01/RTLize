@@ -50,5 +50,5 @@ task :tag do
 end
 
 task :release => :build do
-  system "cd pkg && gem push bundler-#{Rtlize::VERSION}"
+  system "cd pkg && gem push rtlize-#{Rtlize::VERSION}"
 end
