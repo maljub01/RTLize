@@ -9,7 +9,7 @@ rails_version = ENV["RAILS_VERSION"] || "master"
 
 rails = case rails_version
 when "master"
-  {github: "rails/rails"}
+  {:github => "rails/rails"}
 else
   "~> #{rails_version}"
 end
