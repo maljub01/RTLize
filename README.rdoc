@@ -1,5 +1,7 @@
 = RTLize
 
+{<img src="https://travis-ci.org/maljub01/RTLize.png?branch=master" alt="Build Status" />}[https://travis-ci.org/maljub01/RTLize]
+
 RTLize is a rails plugin that semi-automatically allows you to use the same stylesheet file(s) to produce both left-to-right and right-to-left layouts for your markup. It does this by intelligently switching all the left/right properties and values in the stylesheets you choose to RTLize.
 
 == Usage
