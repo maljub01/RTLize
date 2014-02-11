@@ -6,7 +6,7 @@ module Rtlize
       if app.config.assets.enabled
         require 'sprockets'
         require 'sprockets/engines'
-        Sprockets.register_engine '.rtl', Rtlize::RtlTemplate
+        Sprockets.register_preprocessor 'text/css', Rtlize::RtlTemplate
       end
     end
   end

@@ -2,23 +2,21 @@
 
 {<img src="https://travis-ci.org/maljub01/RTLize.png?branch=master" alt="Build Status" />}[https://travis-ci.org/maljub01/RTLize]
 
-RTLize is a rails plugin that semi-automatically allows you to use the same stylesheet file(s) to produce both left-to-right and right-to-left layouts for your markup. It does this by intelligently switching all the left/right properties and values in the stylesheets you choose to RTLize.
+RTLize is a Rails plugin that semi-automatically allows you to use the same css sources to produce both left-to-right and right-to-left stylesheets for your markup. It does this by intelligently switching all the left/right properties and values in the stylesheets you choose to RTLize.
 
 == Usage
 
-=== Adding it to your application
-
-To add RTLize to your Rails application, all you need to do is add the following line to your Gemfile:
+To add RTLize to your Rails application, all you need to do is add the following line to your Gemfile (and run `bundle install` of course):
 
   gem 'rtlize'
 
-Then run `bundle install` and you'll be all set.
+Now you'll need to make symbolic links (or copies if you must) of your stylesheets with the '.css' extension replaced with '.rtl.css'.
 
-=== Basic usage
+  ln -s sheet1.css sheet1.rtl.css
+  ln -s sheet2.css.sass sheet2.rtl.css.sass
+  ...
 
-RTLize registers a Sprocket's engine to preprocess the '.rtl' extension. This preprocessor expects CSS for input, and will output an RTLized version of the CSS it receives.
-
-For instance, if you want to serve an RTL version of your 'application.css.sass', you can make a symbolic link to it (or just a copy if you must) with the filename 'application-rtl.css.rtl.sass'. The '.rtl' extension is what triggers RTLize's preprocessor (the RTLizer) and must come right after the '.css' extension to work properly. As for the '-rtl' appended to the filename, this is just a convention I've adopted to differentiate RTLized CSS files from non-rtlized CSS files because otherwise they'll both have the same URI, which you definitely don't want. You can choose whichever naming convention you feel comfortable with.
+And you're all set! Now when you request the assets 'sheet1.rtl.css' and 'sheet2.rtl.css' you will receive an RTLized version of the original.
 
 === Manually overriding the CSS
 

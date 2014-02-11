@@ -10,8 +10,8 @@ class RtlizeTest < ActiveSupport::TestCase
     assert_equal ".test { left: 1px; }\n", css
   end
 
-  test "application-rtl.css" do
-    css = Dummy::Application.assets.find_asset('application-rtl.css').body
+  test "application.rtl.css" do
+    css = Dummy::Application.assets.find_asset('application.rtl.css').body
     assert_equal ".test { right: 1px; }\n", css
   end
 end

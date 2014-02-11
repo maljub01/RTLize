@@ -9,7 +9,11 @@ module Rtlize
     def prepare; end
 
     def evaluate(scope, locals, &block)
-      Rtlize::RTLizer.transform(data)
+      if scope.logical_path.match(/\.rtl$/i)
+        Rtlize::RTLizer.transform(data)
+      else
+        data
+      end
     end
   end
 end
