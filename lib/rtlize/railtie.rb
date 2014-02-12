@@ -1,12 +1,10 @@
-require 'rtlize/rtl_template'
+require 'rtlize/rtl_processor'
 
 module Rtlize
   class Railtie < ::Rails::Railtie
-    config.before_initialize do |app|
+    initializer "rtlize.railtie", :after => "sprockets.environment" do |app|
       if app.config.assets.enabled
-        require 'sprockets'
-        require 'sprockets/engines'
-        Sprockets.register_preprocessor 'text/css', Rtlize::RtlTemplate
+        app.assets.register_preprocessor 'text/css', Rtlize::RtlProcessor
       end
     end
   end
