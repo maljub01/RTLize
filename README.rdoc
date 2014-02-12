@@ -55,7 +55,6 @@ Jawaker (an Arabic card game website) uses RTLize to automatically generate CSS 
 
 * Add examples, including a sample application.
 * Use a proper CSS parser.
-* Improve coverage.
 * Improve behavior & documentation of the no-rtl directive.
 * Add helper methods in both Rails & JS that would take a string (or a hash) of CSS declarations and convert them to the equivalent RTLized version. This is in order to extend the RTLization support to inline styles as well as dynamic CSS changes.
 

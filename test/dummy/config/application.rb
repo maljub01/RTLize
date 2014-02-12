@@ -48,6 +48,9 @@ module Dummy
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    config.assets.configure do |env|
+      env.cache = ActiveSupport::Cache::NullStore.new
+    end
   end
 end
-
