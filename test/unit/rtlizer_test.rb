@@ -74,12 +74,14 @@ class RtlizerTest < ActiveSupport::TestCase
 
   test "Should transform the clip property" do
     assert_declaration_transformation("clip: rect(1px, 2px, 3px, 4px);", "clip: rect(1px, 4px, 3px, 2px);")
+    assert_no_declaration_transformation("clip: auto;")
   end
 
   test "Should transform the cursor property" do
     assert_declaration_transformation("cursor: e-resize;",  "cursor: w-resize;")
     assert_declaration_transformation("cursor: ne-resize;", "cursor: nw-resize;")
     assert_declaration_transformation("cursor: se-resize;", "cursor: sw-resize;")
+    assert_no_declaration_transformation("cursor: pointer;")
   end
 
   test "Should transform the direction property" do
@@ -133,5 +135,31 @@ class RtlizerTest < ActiveSupport::TestCase
 
       /*!= end(no-rtl) */
     CSS
+
+    before = <<-CSS
+      .klass-1 { float: left; }
+
+      /*!= begin(no-rtl) */
+
+      .klass-2 { float: left; }
+
+      /*!= end(no-rtl) */
+
+      .klass-3 { float: left; }
+    CSS
+
+    after = <<-CSS
+      .klass-1 { float: right; }
+
+      /*!= begin(no-rtl) */
+
+      .klass-2 { float: left; }
+
+      /*!= end(no-rtl) */
+
+      .klass-3 { float: right; }
+    CSS
+
+    assert_transformation(before, after)
   end
 end
