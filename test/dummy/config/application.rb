@@ -53,8 +53,6 @@ module Dummy
     config.assets.cache_store = false
 
     # Disable the asset cache store for Rails 4
-    config.assets.configure do |env|
-      env.cache = ActiveSupport::Cache::NullStore.new
-    end
+    config.assets.configure { |env| env.cache = ActiveSupport::Cache::NullStore.new }
   end
 end
