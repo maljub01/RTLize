@@ -1,5 +1,3 @@
-require 'rtlize/rtl_processor'
-
 module Rtlize
   class Railtie < ::Rails::Railtie
     initializer "rtlize.railtie", :after => "sprockets.environment" do |app|

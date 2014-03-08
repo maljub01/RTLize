@@ -1,5 +1,3 @@
-require 'rtlize/rtlizer'
-
 module Rtlize
   class RtlProcessor
     attr_reader :data
