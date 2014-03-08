@@ -1,5 +1,10 @@
 module Rtlize
-  # Originally ported from http://github.com/ded/R2
+  mattr_accessor :rtl_selector
+  self.rtl_selector = "[dir=rtl]"
+
+  mattr_accessor :rtl_locales
+  self.rtl_locales  = [:ar, :fa, :he, :ur]
+
   class RTLizer
     @property_map = {
       'margin-left'                        => 'margin-right',
@@ -63,12 +68,22 @@ module Rtlize
     }
 
     class << self
+      def should_rtlize_selector?(selector)
+        selector = selector.gsub(/\/\*[\s\S]+?\*\//, '') # Remove comments
+        selector = selector.gsub(/['"]/, '') # Remove quote characters
+
+        rtl_selector = Rtlize.rtl_selector.gsub(/['"]/, '') # Remove quote characters
+
+        rtl_selector_regexp = /(^|\b|\s)#{Regexp.escape(rtl_selector)}($|\b|\s)/
+        !selector.match(rtl_selector_regexp)
+      end
+
       def transform(css)
         no_invert = false
         css.gsub(/([^{]+\{[^}]+\})+?/) do |rule|
           # Break rule into selector|declaration parts
           parts = rule.match(/([^{]+)\{([^}]+)/)
-          if parts && !parts[1].gsub(/\/\*[\s\S]+?\*\//, '').match(/\.rtl\b/) # Don't transform rules that include the selector ".rtl" (remove comments first)
+          if parts && should_rtlize_selector?(parts[1])
             selector, declarations = parts[1..2]
 
             # The CSS comment must start with "!" in order to be considered as important by the YUI compressor, otherwise, it will be removed by the asset pipeline before reaching this processor.

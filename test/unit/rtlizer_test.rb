@@ -123,8 +123,20 @@ class RtlizerTest < ActiveSupport::TestCase
     end
   end
 
-  test "Should not transform CSS rules whose selector includes .rtl" do
-    assert_no_transformation(".klass span.rtl #id { float: left; }")
+  test "Should not transform CSS rules whose selector uses the rtl_selector" do
+    default_rtl_selector = Rtlize.rtl_selector
+
+    [default_rtl_selector, '[dir="rtl"]', "[dir='rtl']"].each do |rtl_selector|
+      Rtlize.rtl_selector = rtl_selector
+      assert_no_transformation("[dir=rtl]   .klass span #id { float: left; }")
+      assert_no_transformation("[dir='rtl'] .klass span #id { float: left; }")
+      assert_no_transformation('[dir="rtl"] .klass span #id { float: left; }')
+    end
+
+    Rtlize.rtl_selector = '.rtl'
+    assert_no_transformation('.rtl .klass span #id { float: left; }')
+
+    Rtlize.rtl_selector = default_rtl_selector
   end
 
   test "Should not transform CSS marked with no-rtl" do
