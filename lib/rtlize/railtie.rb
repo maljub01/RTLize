@@ -6,7 +6,7 @@ module Rtlize
 
     initializer "rtlize.railtie", :after => "sprockets.environment" do |app|
       if app.config.assets.enabled
-        app.assets.register_preprocessor 'text/css', Rtlize::RtlProcessor
+        app.assets.register_postprocessor 'text/css', Rtlize::RtlProcessor
       end
 
       Rtlize.rtl_selector = config.rtlize.rtl_selector

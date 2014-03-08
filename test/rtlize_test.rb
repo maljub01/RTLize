@@ -6,12 +6,23 @@ class RtlizeTest < ActiveSupport::TestCase
   end
 
   test "application.css" do
-    css = @app.assets.find_asset('application.css').body
-    assert_equal ".test { left: 1px; }\n", css
+    [false, true].each do |bundle|
+      css = @app.assets.find_asset('application.css', :bundle => bundle).body
+      assert_equal ".test { left: 1px; }\n", css
+    end
   end
 
   test "application.rtl.css" do
-    css = @app.assets.find_asset('application.rtl.css').body
-    assert_equal ".test { right: 1px; }\n", css
+    [false, true].each do |bundle|
+      css = @app.assets.find_asset('application.rtl.css', :bundle => bundle).body
+      assert_equal ".test { right: 1px; }\n", css
+    end
+  end
+
+  test "sass-importer.rtl.css" do
+    [false, true].each do |bundle|
+      css = @app.assets.find_asset('sass-importer.rtl.css', :bundle => bundle).body
+      assert_equal(".test-1 {\n  right: 10px; }\n\n.test-2 {\n  float: right; }\n", css)
+    end
   end
 end
