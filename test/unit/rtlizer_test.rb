@@ -174,4 +174,19 @@ class RtlizerTest < ActiveSupport::TestCase
 
     assert_transformation(before, after)
   end
+
+  test "Should handle multiline CSS properly" do
+    assert_no_transformation(<<-CSS)
+      @font-face {
+        font-family: 'MyFont';
+        src: font-url('myfont/myfont.eot');
+        src: font-url('myfont/myfont.eot?#iefix') format('embedded-opentype'),
+             font-url('myfont/myfont.woff') format('woff'),
+             font-url('myfont/myfont.ttf') format('truetype'),
+             font-url('myfont/myfont.svg#myfont') format('svg');
+        font-weight: normal;
+        font-style: normal;
+      }
+    CSS
+  end
 end

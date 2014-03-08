@@ -104,7 +104,7 @@ module Rtlize
 
       def transform_declarations(declarations, no_invert = false)
         declarations.split(/;(?!base64)/).map do |decl|
-          m = decl.match(/([^:]+):(.+)$/)
+          m = decl.match(/([^:]+):(.+)/m)
 
           if m && !no_invert
             prop, val = m[1..2]
