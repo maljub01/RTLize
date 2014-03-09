@@ -175,6 +175,38 @@ class RtlizerTest < ActiveSupport::TestCase
     assert_transformation(before, after)
   end
 
+  test "Should respect no-rtl markers even if first selector after them is ignored" do
+    before = <<-CSS
+      /*!= begin(no-rtl) */
+
+      [dir=rtl] .klass { float: left; }
+
+      .klass-2 { float: left; }
+
+      /*!= end(no-rtl) */
+
+      [dir=rtl] .klass-3 { float: left; }
+
+      .klass-4 { float: left; }
+    CSS
+
+    after = <<-CSS
+      /*!= begin(no-rtl) */
+
+      [dir=rtl] .klass { float: left; }
+
+      .klass-2 { float: left; }
+
+      /*!= end(no-rtl) */
+
+      [dir=rtl] .klass-3 { float: left; }
+
+      .klass-4 { float: right; }
+    CSS
+
+    assert_transformation(before, after)
+  end
+
   test "Should handle multiline CSS properly" do
     assert_no_transformation(<<-CSS)
       @font-face {

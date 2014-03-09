@@ -83,21 +83,23 @@ module Rtlize
         css.gsub(/([^{]+\{[^}]+\})+?/) do |rule|
           # Break rule into selector|declaration parts
           parts = rule.match(/([^{]+)\{([^}]+)/)
-          if parts && should_rtlize_selector?(parts[1])
-            selector, declarations = parts[1..2]
+          if !parts
+            return rule
+          end
 
-            # The CSS comment must start with "!" in order to be considered as important by the YUI compressor, otherwise, it will be removed by the asset pipeline before reaching this processor.
-            if selector.match(/\/\*!= begin\(no-rtl\) \*\//)
-              no_invert = true
-              # selector.gsub!(/\/\*!= begin\(no-rtl\) \*\//, '')
-            elsif selector.match(/\/\*!= end\(no-rtl\) \*\//)
-              no_invert = false
-              # selector.gsub!(/\/\*!= end\(no-rtl\) \*\//, '')
-            end
+          selector, declarations = parts[1..2]
+          # The CSS comment must start with "!" in order to be considered as important by the YUI compressor
+          # otherwise, it will be removed by the asset pipeline before reaching this processor.
+          if selector.match(/\/\*!= begin\(no-rtl\) \*\//)
+            no_invert = true
+          elsif selector.match(/\/\*!= end\(no-rtl\) \*\//)
+            no_invert = false
+          end
 
+          if should_rtlize_selector?(selector)
             selector + '{' + self.transform_declarations(declarations, no_invert) + '}'
           else
-            rule
+            selector + '{' + declarations + '}'
           end
         end
       end
@@ -112,9 +114,7 @@ module Rtlize
             prop_name = prop.strip.split(' ').last
             if @property_map[prop_name]
               prop = prop.sub(prop_name, @property_map[prop_name])
-            end
-
-            if @value_map[prop_name]
+            elsif @value_map[prop_name]
               val = val.sub(val.strip, self.send(@value_map[prop_name], val.strip))
             end
 
