@@ -221,4 +221,40 @@ class RtlizerTest < ActiveSupport::TestCase
       }
     CSS
   end
+
+  test "Should handle media queries correctly" do
+    before = <<-CSS
+    @media (max-width: 600px) {
+      .klass-1 {
+        float: left;
+      }
+
+      .klass-2 {
+        float: left;
+      }
+    }
+
+    .klass-3 {
+      float: left;
+    }
+    CSS
+
+    after = <<-CSS
+    @media (max-width: 600px) {
+      .klass-1 {
+        float: right;
+      }
+
+      .klass-2 {
+        float: right;
+      }
+    }
+
+    .klass-3 {
+      float: right;
+    }
+    CSS
+
+    assert_transformation(before, after)
+  end
 end
