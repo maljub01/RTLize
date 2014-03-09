@@ -1,9 +1,22 @@
 module Rtlize
-  mattr_accessor :rtl_selector
-  self.rtl_selector = "[dir=rtl]"
+  @@rtl_selector = "[dir=rtl]"
+  @@rtl_locales  = [:ar, :fa, :he, :ur]
 
-  mattr_accessor :rtl_locales
-  self.rtl_locales  = [:ar, :fa, :he, :ur]
+  def self.rtl_selector
+    @@rtl_selector
+  end
+
+  def self.rtl_selector=(selector)
+    @@rtl_selector = selector
+  end
+
+  def self.rtl_locales
+    @@rtl_locales
+  end
+
+  def self.rtl_locales=(locales)
+    @@rtl_locales = locales
+  end
 
   class RTLizer
     @property_map = {
