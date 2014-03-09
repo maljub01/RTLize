@@ -222,6 +222,11 @@ class RtlizerTest < ActiveSupport::TestCase
     CSS
   end
 
+  test "Should properly handle @-rules that don't take blocks correctly" do
+    assert_no_transformation("@import 'custom.css';")
+    assert_transformation("@import 'custom.css'; .klass { float: left; }", "@import 'custom.css'; .klass { float: right; }")
+  end
+
   test "Should handle media queries correctly" do
     before = <<-CSS
     @media (max-width: 600px) {

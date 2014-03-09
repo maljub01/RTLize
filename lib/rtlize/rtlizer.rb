@@ -83,10 +83,6 @@ module Rtlize
         css.gsub(/([^{]+\{[^}]+\})+?/) do |rule|
           # Break rule into selector|declaration parts
           parts = rule.match(/([^{]+)\{([^}]+)/)
-          if !parts
-            return rule
-          end
-
           selector, declarations = parts[1..2]
           # The CSS comment must start with "!" in order to be considered as important by the YUI compressor
           # otherwise, it will be removed by the asset pipeline before reaching this processor.
