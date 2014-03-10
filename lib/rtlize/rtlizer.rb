@@ -120,11 +120,12 @@ module Rtlize
           if m && !no_invert
             prop, val = m[1..2]
             # Get the property, without comments or spaces, to be able to find it.
-            prop_name = prop.strip.split(' ').last
+            prop_name = prop.strip.split(' ').last.gsub(/^[*_]/, '')
             if @property_map[prop_name]
               prop = prop.sub(prop_name, @property_map[prop_name])
             elsif @value_map[prop_name]
-              val = val.sub(val.strip, self.send(@value_map[prop_name], val.strip))
+              clean_val = val.sub(/\\9/, '').strip
+              val = val.sub(clean_val, self.send(@value_map[prop_name], clean_val))
             end
 
             prop + ':' + val + ';'

@@ -123,6 +123,13 @@ class RtlizerTest < ActiveSupport::TestCase
     end
   end
 
+  test "Should transform properties with IE hacks" do
+    assert_declaration_transformation("_float: left;", "_float: right;")
+    assert_declaration_transformation("*float: left;", "*float: right;")
+    assert_declaration_transformation('float: left\9;', 'float: right\9;')
+    assert_declaration_transformation('float: left \9;', 'float: right \9;')
+  end
+
   test "Should not transform CSS rules whose selector uses the rtl_selector" do
     default_rtl_selector = Rtlize.rtl_selector
 
