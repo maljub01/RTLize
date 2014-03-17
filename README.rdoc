@@ -2,7 +2,7 @@
 
 {<img src="https://travis-ci.org/maljub01/RTLize.png?branch=master" alt="Build Status" />}[https://travis-ci.org/maljub01/RTLize]
 
-RTLize is a Rails plugin that semi-automatically allows you to use the same css sources to produce both left-to-right and right-to-left stylesheets for your markup. It does this by intelligently switching all the left/right properties and values in the stylesheets you choose to RTLize.
+RTLize is a Rails plugin that allows you to write your stylesheets for left-to-right (LTR) layouts and have them automatically work for right-to-left (RTL) layouts as well. It does this by mirroring all the properties and values to their RTL equivalent.
 
 == Usage
 
@@ -10,7 +10,7 @@ To add RTLize to your Rails application, all you need to do is add the following
 
   gem 'rtlize'
 
-Now you'll need to make symbolic links (or copies if you must) of your stylesheets with the '.css' extension replaced with '.rtl.css'.
+Next you'll need to make symbolic links (or copies if you must) of your stylesheets with the '.css' extension replaced with '.rtl.css':
 
   ln -s sheet1.css sheet1.rtl.css
   ln -s sheet2.css.sass sheet2.rtl.css.sass

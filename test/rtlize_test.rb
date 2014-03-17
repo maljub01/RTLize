@@ -12,9 +12,9 @@ class RtlizeTest < ActiveSupport::TestCase
     end
   end
 
-  test "application.rtl.css" do
+  test "application-symlink.rtl.css" do
     [false, true].each do |bundle|
-      css = @app.assets.find_asset('application.rtl.css', :bundle => bundle).body
+      css = @app.assets.find_asset('application-symlink.rtl.css', :bundle => bundle).body
       assert_equal ".test { right: 1px; }\n", css
     end
   end
