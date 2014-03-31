@@ -157,6 +157,10 @@ class RtlizerTest < ActiveSupport::TestCase
     Rtlize.rtl_selector = default_rtl_selector
   end
 
+  test "Should transform properties without semicolons properly" do
+    assert_transformation('.test { float: left }', '.test { float: right }')
+  end
+
   test "Should not transform CSS marked with no-rtl" do
     assert_no_transformation(<<-CSS)
       /*!= begin(no-rtl) */

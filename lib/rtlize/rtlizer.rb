@@ -114,7 +114,7 @@ module Rtlize
       end
 
       def transform_declarations(declarations, no_invert = false)
-        declarations.split(/;(?!base64)/).map do |decl|
+        declarations.split(/(?<=;)(?!base64)/).map do |decl|
           m = decl.match(/([^:]+):(.+)/m)
 
           if m && !no_invert
@@ -124,13 +124,13 @@ module Rtlize
             if @property_map[prop_name]
               prop = prop.sub(prop_name, @property_map[prop_name])
             elsif @value_map[prop_name]
-              clean_val = val.sub(/\\9/, '').strip
+              clean_val = val.sub(/;$/, '').sub(/\\9/, '').strip
               val = val.sub(clean_val, self.send(@value_map[prop_name], clean_val))
             end
 
-            prop + ':' + val + ';'
+            prop + ':' + val
           elsif m
-            decl + ';'
+            decl
           else
             decl
           end
