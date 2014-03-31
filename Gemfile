@@ -10,7 +10,7 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
-rails_version = ENV["RAILS_VERSION"] || "master"
+rails_version = ENV["RAILS_VERSION"] || "4.0.0"
 
 rails = case rails_version
 when "master"
@@ -22,4 +22,4 @@ end
 gem "rails", rails
 
 # To use debugger
-# gem 'debugger'
+gem 'debugger'
