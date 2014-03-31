@@ -124,6 +124,16 @@ class RtlizerTest < ActiveSupport::TestCase
     end
   end
 
+  test "Should properly handle DATA URI schemes" do
+    checked_box = <<-CSS
+      background: white url('data:image/png;base64,iVBORw0KGgoAA
+        AANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEUAAAD///+l2Z/dAAAAM0l
+        EQVR4nGP4/5/h/1+G/58ZDrAz3D/McH8yw83NDDeNGe4Ug9C9zwz3gVLMDA/A6
+        P9/AFGGFyjOXZtQAAAAAElFTkSuQmCC') no-repeat;
+    CSS
+    assert_no_declaration_transformation(checked_box)
+  end
+
   test "Should transform properties with IE hacks" do
     assert_declaration_transformation("_float: left;", "_float: right;")
     assert_declaration_transformation("*float: left;", "*float: right;")
@@ -233,6 +243,34 @@ class RtlizerTest < ActiveSupport::TestCase
   test "Should properly handle @-rules that don't take blocks correctly" do
     assert_no_transformation("@import 'custom.css';")
     assert_transformation("@import 'custom.css'; .klass { float: left; }", "@import 'custom.css'; .klass { float: right; }")
+  end
+
+  test "Should properly transform animations" do
+    before = <<-CSS
+      @keyframes slidein {
+        from {
+          margin-left: 100%;
+        }
+
+        100% {
+          margin-left: 0%;
+        }
+      }
+    CSS
+
+    after = <<-CSS
+      @keyframes slidein {
+        from {
+          margin-right: 100%;
+        }
+
+        100% {
+          margin-right: 0%;
+        }
+      }
+    CSS
+
+    assert_transformation(before, after)
   end
 
   test "Should handle media queries correctly" do
