@@ -245,6 +245,38 @@ class RtlizerTest < ActiveSupport::TestCase
     assert_transformation("@import 'custom.css'; .klass { float: left; }", "@import 'custom.css'; .klass { float: right; }")
   end
 
+  test "Should properly handle nested blocks" do
+    before = <<-CSS
+      @media print {
+        .test {
+          margin-right: 10px;
+        }
+
+        @media (max-width: 600px) {
+          .test {
+            float: right;
+          }
+        }
+      }
+    CSS
+
+    after = <<-CSS
+      @media print {
+        .test {
+          margin-left: 10px;
+        }
+
+        @media (max-width: 600px) {
+          .test {
+            float: left;
+          }
+        }
+      }
+    CSS
+
+    assert_transformation(before, after)
+  end
+
   test "Should properly transform animations" do
     before = <<-CSS
       @keyframes slidein {
