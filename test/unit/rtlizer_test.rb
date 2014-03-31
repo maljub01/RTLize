@@ -74,6 +74,7 @@ class RtlizerTest < ActiveSupport::TestCase
 
   test "Should transform the clip property" do
     assert_declaration_transformation("clip: rect(1px, 2px, 3px, 4px);", "clip: rect(1px, 4px, 3px, 2px);")
+    assert_declaration_transformation("clip: rect(1px 2px 3px 4px);",    "clip: rect(1px 4px 3px 2px);")
     assert_no_declaration_transformation("clip: auto;")
   end
 

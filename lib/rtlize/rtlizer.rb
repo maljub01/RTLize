@@ -149,7 +149,13 @@ module Rtlize
         if v.match(/rect\([^)]*\)/)
           v.gsub(/\([^)]*\)/) do |m|
             parts = m.gsub(/[()]/, '').split(',').map(&:strip)
-            "(#{parts[0]}, #{parts[3]}, #{parts[2]}, #{parts[1]})"
+            if parts.size == 1
+              # Using backwards compatible syntax
+              parts = m.gsub(/[()]/, '').split(/\W+/).map(&:strip)
+              "(#{parts[0]} #{parts[3]} #{parts[2]} #{parts[1]})"
+            else
+              "(#{parts[0]}, #{parts[3]}, #{parts[2]}, #{parts[1]})"
+            end
           end
         else
           v
