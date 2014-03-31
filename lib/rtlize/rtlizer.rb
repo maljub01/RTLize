@@ -124,7 +124,7 @@ module Rtlize
             if @property_map[prop_name]
               prop = prop.sub(prop_name, @property_map[prop_name])
             elsif @value_map[prop_name]
-              clean_val = val.sub(/;$/, '').sub(/\\9/, '').strip
+              clean_val = val.sub(/;$/, '').sub(/\\9/, '').sub(/!\s*important/, '').strip
               val = val.sub(clean_val, self.send(@value_map[prop_name], clean_val))
             end
 

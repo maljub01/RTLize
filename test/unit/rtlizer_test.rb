@@ -141,6 +141,19 @@ class RtlizerTest < ActiveSupport::TestCase
     assert_declaration_transformation('float: left \9;', 'float: right \9;')
   end
 
+  test "Should transform !important rules properly" do
+    ['!important', '! important'].each do |imp_txt|
+      assert_declaration_transformation("float: left #{imp_txt};", "float: right #{imp_txt};")
+      assert_declaration_transformation("direction: ltr #{imp_txt};", "direction: rtl #{imp_txt};")
+      assert_declaration_transformation("cursor: e-resize #{imp_txt};", "cursor: w-resize #{imp_txt};")
+      assert_declaration_transformation("rotation: 90deg #{imp_txt};", "rotation: 270deg #{imp_txt};")
+      assert_declaration_transformation("margin: 1px 2px 3px 4px #{imp_txt};", "margin: 1px 4px 3px 2px #{imp_txt};")
+      assert_declaration_transformation("clip: rect(1px, 2px, 3px, 4px) #{imp_txt};", "clip: rect(1px, 4px, 3px, 2px) #{imp_txt};")
+      assert_declaration_transformation("border-radius: 1px 2px 3px 4px #{imp_txt};", "border-radius: 2px 1px 4px 3px #{imp_txt};")
+      assert_declaration_transformation("box-shadow: -1px -2px 3px #000 inset #{imp_txt};", "box-shadow: 1px -2px 3px #000 inset #{imp_txt};")
+    end
+  end
+
   test "Should not transform CSS rules whose selector uses the rtl_selector" do
     default_rtl_selector = Rtlize.rtl_selector
 
