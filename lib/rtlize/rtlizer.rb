@@ -151,7 +151,7 @@ module Rtlize
             parts = m.gsub(/[()]/, '').split(',').map(&:strip)
             if parts.size == 1
               # Using backwards compatible syntax
-              parts = m.gsub(/[()]/, '').split(/\W+/).map(&:strip)
+              parts = m.gsub(/[()]/, '').split(/\s+/).map(&:strip)
               "(#{parts[0]} #{parts[3]} #{parts[2]} #{parts[1]})"
             else
               "(#{parts[0]}, #{parts[3]}, #{parts[2]}, #{parts[1]})"
