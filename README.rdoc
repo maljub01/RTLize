@@ -14,21 +14,41 @@ Next you'll need to make symbolic links (or copies if you must) of your styleshe
 
   ln -s sheet1.css sheet1.rtl.css
   ln -s sheet2.css.sass sheet2.rtl.css.sass
+  ln -s sheet3.css.erb sheet3.rtl.css.erb
   ...
 
-And you're all set! Now when you request the assets 'sheet1.rtl.css' and 'sheet2.rtl.css' you will receive an RTLized version of the original.
+Finally, you'll need to use the `dir` property on the `html` or `body` element in order to give your document the correct direction and have your RTLized document be mirrored properly once the RTLized CSS is applied to it:
+
+  <html lang="<%= I18n.locale %>" dir="<%= Rtlize.dir %>">
+
+`[dir=rtl]` is also used by RTLize as the default `rtl_selector` for matching RTL content. If you prefer to use a different `rtl_selector` (The class `.rtl` for example), then you'll need to make sure your right-to-left HTML matches that selector in order for the RTLize to work properly.
+
+Now when you request the assets 'sheet1.rtl.css' and 'sheet2.rtl.css' you will receive an RTLized version of the original.
 
 === Manually overriding the CSS
 
-When writing your CSS, you will often encounter cases where you need to manually override the CSS for rtl, to change a background image for example. To do this, you can use the rtl class. The RTLizer wont transform any CSS rule that mentions the class 'rtl'. Notice that you'll need to manually add an 'rtl' class to your HTML tags that will use this (usually to the html or body tag).
+When writing your CSS, you will often encounter cases where you need to manually override the CSS for RTL layouts, to change a background image for example. To do this, you can use the `rtl_selector`. RTLize wont transform any CSS rules that use the `rtl_selector`.
 
-=== Preserving the layout for some sections of your markup
+For example:
 
-You might also find that you need to perserve the layout on certain parts of your website. To do this, you'll need to tell the RTLizer about the CSS files/rules you don't want switched. You can do this using the no-rtl directive. The way this works is that whenever the RTLizer finds the following comment:
+  .class-1
+    margin: 1px 2px 3px 4px; // This will be transformed to "margin: 1px 4px 3px 2px"
+
+  [dir=rtl] .class-2
+    margin-right: 2px; // This will not be transformed
+
+  // This will also not be transformed.
+  // Be careful with mixing the `rtl_selector` with other selectors in the same ruleset.
+  [dir=rtl] .class-3, .another-class
+    float: left;
+
+=== Preventing some parts of your CSS from being transformed
+
+You might also find that you need to prevent the layout from being flipped on certain parts of your website. To do this, you'll need to tell the RTLizer about the CSS files/rules you don't want switched. You can do this using the no-rtl directive. The way this works is that whenever the RTLizer finds the following comment:
   /*!= begin(no-rtl) */
-it wont transform all the CSS rules that follow until it reaches the comment:
+it will stop transforming all the CSS rules that follow until it reaches the comment:
   /*!= end(no-rtl) */
-after which it will return to transforming the CSS rules it finds as normal.
+after which transforming CSS will be turned back on.
 
 A few issues to keep in mind when using the no-rtl directive is that, depending on your CSS preprocessor if you use one, you might need to add an extra !. You should also avoid adding those comments except at the top-level of your nested declarations for them to work properly. For example, using SASS, the no-rtl directives look like this:
 
@@ -54,13 +74,13 @@ Jawaker (an Arabic card game website) uses RTLize to automatically generate CSS 
 == TODO
 
 * Add examples, including a sample application.
-* Use a proper CSS parser.
 * Improve behavior & documentation of the no-rtl directive.
+* Add a CLI for transforming CSS files.
 * Add helper methods in both Rails & JS that would take a string (or a hash) of CSS declarations and convert them to the equivalent RTLized version. This is in order to extend the RTLization support to inline styles as well as dynamic CSS changes.
 
 == Credits
 
-* This project was inspired by {Dustin Diaz's R2}[http://github.com/ded/R2]. The initial version was in fact not much more than a ruby port of R2.
+* This project was inspired by {Dustin Diaz's R2}[http://github.com/ded/R2]. In fact, initially RTLize was not much more than a ruby port of R2.
 
 == License
 

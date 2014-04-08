@@ -91,33 +91,95 @@ module Rtlize
         !selector.match(rtl_selector_regexp)
       end
 
-      def transform(css)
-        no_invert = false
-        css.gsub(/([^{]+\{[^}]+\})+?/) do |rule|
-          # Break rule into selector|declaration parts
-          parts = rule.match(/([^{]+)\{([^}]+)/)
-          selector, declarations = parts[1..2]
-          # The CSS comment must start with "!" in order to be considered as important by the YUI compressor
-          # otherwise, it will be removed by the asset pipeline before reaching this processor.
-          if selector.match(/\/\*!= begin\(no-rtl\) \*\//)
-            no_invert = true
-          elsif selector.match(/\/\*!= end\(no-rtl\) \*\//)
-            no_invert = false
-          end
+      def update_no_invert(selector)
+        # The CSS comment must start with "!" in order to be considered as important by the CSS compressor
+        # otherwise, it will be removed by the asset pipeline before reaching this processor.
+        if selector.match(/\/\*!= begin\(no-rtl\) \*\//)
+          @no_invert = true
+        elsif selector.match(/\/\*!= end\(no-rtl\) \*\//)
+          @no_invert = false
+        end
+      end
 
-          if should_rtlize_selector?(selector)
-            selector + '{' + self.transform_declarations(declarations, no_invert) + '}'
-          else
-            selector + '{' + declarations + '}'
+      def transform(css)
+        @no_invert = false
+
+        block_re = %r{
+          (?<block>
+            [^\{\}]+ \{
+              (?:
+                \g<block>* [^\{\}]*
+                |
+                [^\{\}]+
+              )
+            \}
+          )
+        }x
+
+        css.gsub(block_re) do |block|
+          block_selector_re = %r{ ^ [^\{\}]+ }x
+          block_selector = block.match(block_selector_re).to_s
+          next if block_selector.length == 0
+          update_no_invert(block_selector)
+
+          # Break the blocks' rules into their selector & declaration parts
+          rule_re = %r{
+            ( [^\{\}]+ ) \{
+              (
+                (?:
+                  [^\{\}]+ \{
+                    [^\{\}]+
+                  \} [^\{\}]*
+                )*
+              )
+            \}
+            |
+            ( [^\{\}]+ ) \{
+              ( [^\{\}]+ )
+            \}
+          }x
+
+          block.gsub(rule_re) do |rule|
+            parts = rule.match(rule_re)
+            if parts[1].nil?
+              # Simple block
+              selector, declarations = parts[3,4]
+              transform_simple_block(selector, declarations)
+            else
+              # Nested blocks
+              selector, declarations = parts[1,2]
+              selector + '{' + transform_nested_blocks(declarations) + '}'
+            end
           end
         end
       end
 
-      def transform_declarations(declarations, no_invert = false)
+      def transform_simple_block(selector, declarations)
+        if should_rtlize_selector?(selector)
+          selector + '{' + self.transform_declarations(declarations) + '}'
+        else
+          selector + '{' + declarations + '}'
+        end
+      end
+
+      def transform_nested_blocks(blocks)
+        simple_block_re = %r{
+          ( [^\{\}]+ ) \{
+            ( [^\{\}]+ )
+          \}
+        }x
+        blocks.gsub(simple_block_re) do |block|
+          parts = block.match(simple_block_re)
+          selector, declarations = parts[1,2]
+          transform_simple_block(selector, declarations)
+        end
+      end
+
+      def transform_declarations(declarations)
         declarations.split(/(?<=;)(?!base64)/).map do |decl|
           m = decl.match(/([^:]+):(.+)/m)
 
-          if m && !no_invert
+          if m && !@no_invert
             prop, val = m[1..2]
             # Get the property, without comments or spaces, to be able to find it.
             prop_name = prop.strip.split(' ').last.gsub(/^[*_]/, '')
