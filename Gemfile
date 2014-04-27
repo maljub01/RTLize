@@ -20,6 +20,3 @@ else
 end
 
 gem "rails", rails
-
-# To use debugger
-gem 'debugger'
