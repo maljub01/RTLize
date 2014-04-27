@@ -2,12 +2,12 @@ require 'test_helper'
 
 class RtlizerTest < ActiveSupport::TestCase
   def assert_declaration_transformation(from, to, one_way = false)
-    assert_equal(to, Rtlize::RTLizer.transform_declarations(from))
-    assert_equal(from, Rtlize::RTLizer.transform_declarations(to)) unless one_way
+    assert_equal(to, Rtlize::Declaration.transform_multiple(from))
+    assert_equal(from, Rtlize::Declaration.transform_multiple(to)) unless one_way
   end
 
   def assert_no_declaration_transformation(css)
-    assert_equal(css, Rtlize::RTLizer.transform_declarations(css))
+    assert_equal(css, Rtlize::Declaration.transform_multiple(css))
   end
 
   def assert_transformation(from, to, one_way = false)
