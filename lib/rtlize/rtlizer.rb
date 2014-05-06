@@ -19,6 +19,49 @@ module Rtlize
 
   class RTLizer
     class << self
+      def simple_block_regexp
+        %r{
+          ( [^\{\}]+ ) \{
+            ( [^\{\}]+ )
+          \}
+        }x
+      end
+
+      def block_regexp
+        %r{
+          [^\{\}]+ \{
+            (?:
+              (?:
+                [^\{\}]+ \{
+                  [^\{\}]+
+                \} [^\{\}]*
+              )*
+              |
+              [^\{\}]+
+            )
+          \}
+        }x
+      end
+
+      def rule_regexp
+        # Break the blocks' rules into their selector & declaration parts
+        %r{
+          ( [^\{\}]+ ) \{
+            (
+              (?:
+                [^\{\}]+ \{
+                  [^\{\}]+
+                \} [^\{\}]*
+              )*
+            )
+          \}
+          |
+          ( [^\{\}]+ ) \{
+            ( [^\{\}]+ )
+          \}
+        }x
+      end
+
       def should_rtlize_selector?(selector)
         selector = selector.gsub(/\/\*[\s\S]+?\*\//, '') # Remove comments
         selector = selector.gsub(/['"]/, '') # Remove quote characters
@@ -42,44 +85,13 @@ module Rtlize
       def transform(css)
         @no_invert = false
 
-        block_re = %r{
-          [^\{\}]+ \{
-            (?:
-              (?:
-                [^\{\}]+ \{
-                  [^\{\}]+
-                \} [^\{\}]*
-              )*
-              |
-              [^\{\}]+
-            )
-          \}
-        }x
-
-        css.gsub(block_re) do |block|
-          block_selector_re = %r{ ^ [^\{\}]+ }x
-          block_selector = block.match(block_selector_re).to_s
+        css.gsub(block_regexp) do |block|
+          block_selector_regexp = %r{ ^ [^\{\}]+ }x
+          block_selector = block.match(block_selector_regexp).to_s
           next if block_selector.length == 0
 
-          # Break the blocks' rules into their selector & declaration parts
-          rule_re = %r{
-            ( [^\{\}]+ ) \{
-              (
-                (?:
-                  [^\{\}]+ \{
-                    [^\{\}]+
-                  \} [^\{\}]*
-                )*
-              )
-            \}
-            |
-            ( [^\{\}]+ ) \{
-              ( [^\{\}]+ )
-            \}
-          }x
-
-          block.gsub(rule_re) do |rule|
-            parts = rule.match(rule_re)
+          block.gsub(rule_regexp) do |rule|
+            parts = rule.match(rule_regexp)
             if parts[1].nil?
               # Simple block
               selector, declarations = parts[3,4]
@@ -103,13 +115,8 @@ module Rtlize
       end
 
       def transform_nested_blocks(blocks)
-        simple_block_re = %r{
-          ( [^\{\}]+ ) \{
-            ( [^\{\}]+ )
-          \}
-        }x
-        blocks.gsub(simple_block_re) do |block|
-          parts = block.match(simple_block_re)
+        blocks.gsub(simple_block_regexp) do |block|
+          parts = block.match(simple_block_regexp)
           selector, declarations = parts[1,2]
           transform_simple_block(selector, declarations)
         end
