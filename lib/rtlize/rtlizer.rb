@@ -43,15 +43,17 @@ module Rtlize
         @no_invert = false
 
         block_re = %r{
-          (?<block>
-            [^\{\}]+ \{
+          [^\{\}]+ \{
+            (?:
               (?:
-                \g<block>* [^\{\}]*
-                |
-                [^\{\}]+
-              )
-            \}
-          )
+                [^\{\}]+ \{
+                  [^\{\}]+
+                \} [^\{\}]*
+              )*
+              |
+              [^\{\}]+
+            )
+          \}
         }x
 
         css.gsub(block_re) do |block|

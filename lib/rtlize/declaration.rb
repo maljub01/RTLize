@@ -76,7 +76,7 @@ module Rtlize
       end
 
       def transform_multiple(declarations)
-        declarations.split(/(?<=;)(?!base64)/).map do |declaration|
+        declarations.split(/(;)(?!base64)/).map do |declaration|
           m = declaration.match(/([^:]+):(.+)/m)
 
           if m
