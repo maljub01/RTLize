@@ -1,9 +1,6 @@
 module Rtlize
-  @@rtl_selector = "[dir=rtl]"
-  @@rtl_locales  = [:ar, :fa, :he, :ur]
-
   def self.rtl_selector
-    @@rtl_selector
+    @@rtl_selector ||= "[dir=rtl]"
   end
 
   def self.rtl_selector=(selector)
@@ -11,7 +8,7 @@ module Rtlize
   end
 
   def self.rtl_locales
-    @@rtl_locales
+    @@rtl_locales ||= [:ar, :fa, :he, :ur]
   end
 
   def self.rtl_locales=(locales)
