@@ -1,3 +1,5 @@
+require 'rtlize/declaration'
+
 module Rtlize
   def self.rtl_selector
     @@rtl_selector ||= "[dir=rtl]"
