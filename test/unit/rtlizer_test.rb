@@ -273,6 +273,12 @@ class RtlizerTest < ActiveSupport::TestCase
           .test {
             float: right;
           }
+
+          @media (max-height: 600px) {
+            .test {
+              padding-right: 5px;
+            }
+          }
         }
       }
     CSS
@@ -286,6 +292,12 @@ class RtlizerTest < ActiveSupport::TestCase
         @media (max-width: 600px) {
           .test {
             float: left;
+          }
+
+          @media (max-height: 600px) {
+            .test {
+              padding-left: 5px;
+            }
           }
         }
       }
