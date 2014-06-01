@@ -2,11 +2,13 @@
 
 {<img src="https://travis-ci.org/maljub01/RTLize.png?branch=master" alt="Build Status" />}[https://travis-ci.org/maljub01/RTLize]
 
-RTLize is a Rails plugin that allows you to write your stylesheets for left-to-right (LTR) layouts and have them automatically work for right-to-left (RTL) layouts as well. It does this by mirroring all the properties and values to their RTL equivalent.
+RTLize allows you to write your stylesheets for left-to-right (LTR) layouts and have them automatically work for right-to-left (RTL) layouts as well. It does this by mirroring all the properties and values to their RTL equivalent.
+
+RTLize doesn't depend on any other gem and doesn't tie you down to Rails or any other framework. However, it does work with Rails & Sprockets out of the box, and you'll need to hook it up manually if you use a different stack, but it should be pretty simple to do so.
 
 == Usage
 
-To add RTLize to your Rails application, all you need to do is add the following line to your Gemfile (and run `bundle install` of course):
+To add RTLize to your Rails or Ruby application, you'll need to add it to your Gemfile (and then run `bundle install` of course):
 
   gem 'rtlize'
 
@@ -74,9 +76,9 @@ Jawaker (an Arabic card game website) uses RTLize to automatically generate CSS 
 == TODO
 
 * Add examples, including a sample application.
-* Improve behavior & documentation of the no-rtl directive.
+* Improve matching & documentation of the no-rtl directive.
 * Add a CLI for transforming CSS files.
-* Add helper methods in both Rails & JS that would take a string (or a hash) of CSS declarations and convert them to the equivalent RTLized version. This is in order to extend the RTLization support to inline styles as well as dynamic CSS changes.
+* Add helper methods in both Ruby & JS that would take a string (or a hash) of CSS declarations and convert them to the equivalent RTLized version. This is in order to extend the RTLization support to inline styles as well as dynamic CSS changes.
 
 == Credits
 

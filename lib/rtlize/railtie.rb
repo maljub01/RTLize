@@ -1,3 +1,6 @@
+require 'rtlize/helpers'
+require 'rtlize/rtl_processor'
+
 module Rtlize
   class Railtie < ::Rails::Railtie
     config.rtlize = ActiveSupport::OrderedOptions.new
