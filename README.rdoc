@@ -23,7 +23,7 @@ Finally, you'll need to use the `dir` property on the `html` or `body` element i
 
   <html lang="<%= I18n.locale %>" dir="<%= Rtlize.dir %>">
 
-`[dir=rtl]` is also used by RTLize as the default `rtl_selector` for matching RTL content. If you prefer to use a different `rtl_selector` (The class `.rtl` for example), then you'll need to make sure your right-to-left HTML matches that selector in order for the RTLize to work properly.
+`[dir=rtl]` is also used by RTLize as the default `rtl_selector` for targeting RTL content with your CSS.
 
 Now when you request the assets 'sheet1.rtl.css' and 'sheet2.rtl.css' you will receive an RTLized version of the original.
 
@@ -36,12 +36,20 @@ For example:
   .class-1
     margin: 1px 2px 3px 4px; // This will be transformed to "margin: 1px 4px 3px 2px"
 
+  // The following rules will not be transformed because they target RTL content using the rtl_selector
+
   [dir=rtl] .class-2
-    margin-right: 2px; // This will not be transformed
+    margin-right: 2px;
+
+  [dir="rtl"] .class-3
+    margin-right: 3px;
+
+  [dir='rtl'].class-4
+    margin-right: 4px;
 
   // This will also not be transformed.
-  // Be careful with mixing the `rtl_selector` with other selectors in the same ruleset.
-  [dir=rtl] .class-3, .another-class
+  // Be careful not to write RTLizable rulesets that mix selectors that include the `rtl_selector` with others that dont.
+  [dir=rtl] .class-5, .another-class
     float: left;
 
 === Preventing some parts of your CSS from being transformed
@@ -82,8 +90,8 @@ Jawaker (an Arabic card game website) uses RTLize to automatically generate CSS 
 
 == Credits
 
-* This project was inspired by {Dustin Diaz's R2}[http://github.com/ded/R2]. In fact, initially RTLize was not much more than a ruby port of R2.
+* RTLize was inspired by {Dustin Diaz's R2}[http://github.com/ded/R2]. In fact, initially RTLize was not much more than a ruby port of R2.
 
 == License
 
-This project rocks and uses MIT-LICENSE.
+RTLize rocks and uses MIT-LICENSE.
