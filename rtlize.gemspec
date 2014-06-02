@@ -18,8 +18,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "simplecov"
 
-  s.description <<-END
+  s.description = <<-END
 RTLize allows you to write your stylesheets for left-to-right (LTR) layouts
 and have them automatically work for right-to-left (RTL) layouts as well.
-  END
+END
+
 end
