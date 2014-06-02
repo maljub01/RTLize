@@ -88,6 +88,10 @@ Jawaker (an Arabic card game website) uses RTLize to automatically generate CSS 
 * Add a CLI for transforming CSS files.
 * Add helper methods in both Ruby & JS that would take a string (or a hash) of CSS declarations and convert them to the equivalent RTLized version. This is in order to extend the RTLization support to inline styles as well as dynamic CSS changes.
 
+== Versioning
+
+This gem follows {Semantic Versioning}[http://semver.org]
+
 == Credits
 
 * RTLize was inspired by {Dustin Diaz's R2}[http://github.com/ded/R2]. In fact, initially RTLize was not much more than a ruby port of R2.
