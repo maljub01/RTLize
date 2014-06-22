@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+$:.unshift File.expand_path("../../lib", __FILE__)
+
+require 'rtlize'
+require 'rtlize/exec'
+
+opts = Rtlize::Exec.new(ARGV)
+opts.parse!

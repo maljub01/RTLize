@@ -9,7 +9,8 @@ Gem::Specification.new do |s|
   s.email       = ["marwan.al.jubeh@gmail.com"]
   s.homepage    = "http://github.com/maljub01/RTLize"
 
-  s.files       = Dir["{app,config,db,lib,test}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.executables = ['rtlize']
+  s.files       = Dir["{app,bin,config,db,lib,test}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files  = Dir["test/**/*"]
   s.license     = "MIT"
 

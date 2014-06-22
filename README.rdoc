@@ -6,9 +6,23 @@ RTLize allows you to write your stylesheets for left-to-right (LTR) layouts and 
 
 RTLize doesn't depend on any other gem and doesn't tie you down to Rails or any other framework. However, it does work with Rails & Sprockets out of the box, and you'll need to hook it up manually if you use a different stack, but it should be pretty simple to do so.
 
-== Usage
+== Using RTLize from the Command Line
 
-To add RTLize to your Rails or Ruby application, you'll need to add it to your Gemfile (and then run `bundle install` of course):
+First, you'll need to install the gem:
+
+  gem install rtlize
+
+Afterwards, you can use the `rtlize` command to flip your LTR stylesheets to their RTL versions (or vice versa)
+
+  rtlize application.css application.rtl.css
+
+For more information on using RTLize from the command line:
+
+  rtlize -h
+
+== Using RTLize with your Web Framework
+
+To use RTLize in your Rails or Ruby application, you'll need to add it to your Gemfile (and then run `bundle install` of course):
 
   gem 'rtlize'
 
@@ -27,9 +41,9 @@ Finally, you'll need to use the `dir` property on the `html` or `body` element i
 
 Now when you request the assets 'sheet1.rtl.css' and 'sheet2.rtl.css' you will receive an RTLized version of the original.
 
-=== Manually overriding the CSS
+=== Manually overriding CSS
 
-When writing your CSS, you will often encounter cases where you need to manually override the CSS for RTL layouts, to change a background image for example. To do this, you can use the `rtl_selector`. RTLize wont transform any CSS rules that use the `rtl_selector`.
+When writing your CSS, you will often encounter cases where you need to manually override CSS for RTL layouts, to change a background image for example. To do this, you can use the `rtl_selector`. RTLize wont transform any CSS rules that use the `rtl_selector`.
 
 For example:
 
@@ -85,7 +99,6 @@ Jawaker (an Arabic card game website) uses RTLize to automatically generate CSS 
 
 * Add examples, including a sample application.
 * Improve matching & documentation of the no-rtl directive.
-* Add a CLI for transforming CSS files.
 * Add helper methods in both Ruby & JS that would take a string (or a hash) of CSS declarations and convert them to the equivalent RTLized version. This is in order to extend the RTLization support to inline styles as well as dynamic CSS changes.
 
 == Versioning
