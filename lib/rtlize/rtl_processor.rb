@@ -6,8 +6,8 @@ module Rtlize
       @data = block.call
     end
 
-    def render(context, locals, &block)
-      if context.pathname.basename.to_s.match(/\.rtl\.css/i)
+    def render(context)
+      if context.pathname.basename.to_s.match(/\.rtl\.css/i) || context.pathname.basename.to_s.match(/\.rtl\.scss/i)
         Rtlize::RTLizer.transform(data)
       else
         data
