@@ -10,7 +10,7 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
-rails_version = ENV["RAILS_VERSION"] || "4.0.0"
+rails_version = ENV["RAILS_VERSION"] || "4.2.2"
 
 rails = case rails_version
 when "master"
@@ -19,4 +19,9 @@ else
   "~> #{rails_version}"
 end
 
-gem "rails", rails
+gem "rails", "4.2.2"
+gem 'sass-rails', '~> 5.0.1'
+gem 'uglifier', '>= 1.3.0'
+gem 'sprockets', '3.2'
+gem 'sprockets-rails', '2.3.1'
+gem 'byebug'

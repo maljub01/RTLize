@@ -8,9 +8,7 @@ module Rtlize
     config.rtlize.rtl_locales  = Rtlize.rtl_locales
 
     initializer "rtlize.railtie", :after => "sprockets.environment" do |app|
-      if app.config.assets.enabled
-        app.assets.register_postprocessor 'text/css', Rtlize::RtlProcessor
-      end
+      app.assets.register_postprocessor 'text/css', Rtlize::RtlProcessor
 
       Rtlize.rtl_selector = config.rtlize.rtl_selector
       Rtlize.rtl_locales  = config.rtlize.rtl_locales

@@ -1,9 +1,16 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require "active_model/railtie"
+require "active_record/railtie"
+require "action_controller/railtie"
+require "action_mailer/railtie"
+require "action_view/railtie"
+require "sprockets/railtie"
 
 Bundler.require
 require "rtlize"
+
 
 module Dummy
   class Application < Rails::Application
@@ -44,7 +51,7 @@ module Dummy
     # config.active_record.schema_format = :sql
 
     # Enable the asset pipeline
-    config.assets.enabled = true
+    #config.assets.enabled = true
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
